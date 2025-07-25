@@ -35,7 +35,6 @@ function Dashboard() {
   }, []);
 
   const filterDataByTime = (data) => {
-    const now = new Date();
     return data.filter(record => {
       const recordDate = new Date(record.date);
       
