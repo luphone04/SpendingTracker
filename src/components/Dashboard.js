@@ -124,10 +124,10 @@ function Dashboard() {
       var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                        'July', 'August', 'September', 'October', 'November', 'December'];
       
-      for (var i = 0; i < 12; i++) {
-        labels.push(monthNames[i]);
-        if (monthlyData[i]) {
-          amounts.push(monthlyData[i]);
+      for (var j = 0; j < 12; j++) {
+        labels.push(monthNames[j]);
+        if (monthlyData[j]) {
+          amounts.push(monthlyData[j]);
         } else {
           amounts.push(0);
         }
@@ -149,47 +149,47 @@ function Dashboard() {
       // Group by weeks within the selected month
       var weeklyData = {};
       
-      for (var i = 0; i < data.length; i++) {
-        var record = data[i];
-        var date = new Date(record.date);
-        var dayOfMonth = date.getDate();
+      for (var k = 0; k < data.length; k++) {
+        var weekRecord = data[k];
+        var weekDate = new Date(weekRecord.date);
+        var dayOfMonth = weekDate.getDate();
         var weekNumber = Math.ceil(dayOfMonth / 7);
-        var amount = parseFloat(record.amount);
+        var weekAmount = parseFloat(weekRecord.amount);
         
-        if (!isNaN(amount)) {
+        if (!isNaN(weekAmount)) {
           if (weeklyData[weekNumber]) {
-            weeklyData[weekNumber] = weeklyData[weekNumber] + amount;
+            weeklyData[weekNumber] = weeklyData[weekNumber] + weekAmount;
           } else {
-            weeklyData[weekNumber] = amount;
+            weeklyData[weekNumber] = weekAmount;
           }
         }
       }
 
-      var labels = [];
-      var amounts = [];
+      var weekLabels = [];
+      var weekAmounts = [];
       var daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
       var totalWeeks = Math.ceil(daysInMonth / 7);
       
-      for (var i = 1; i <= totalWeeks; i++) {
-        var startDay = (i - 1) * 7 + 1;
-        var endDay = i * 7;
+      for (var m = 1; m <= totalWeeks; m++) {
+        var startDay = (m - 1) * 7 + 1;
+        var endDay = m * 7;
         if (endDay > daysInMonth) {
           endDay = daysInMonth;
         }
-        labels.push('Week ' + i + ' (' + startDay + '-' + endDay + ')');
-        if (weeklyData[i]) {
-          amounts.push(weeklyData[i]);
+        weekLabels.push('Week ' + m + ' (' + startDay + '-' + endDay + ')');
+        if (weeklyData[m]) {
+          weekAmounts.push(weeklyData[m]);
         } else {
-          amounts.push(0);
+          weekAmounts.push(0);
         }
       }
 
       return {
-        labels: labels,
+        labels: weekLabels,
         datasets: [
           {
             label: 'Weekly Spending',
-            data: amounts,
+            data: weekAmounts,
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             tension: 0.1,
@@ -199,41 +199,41 @@ function Dashboard() {
     } else {
       // Daily view - show individual transactions
       var sortedData = [];
-      for (var i = 0; i < data.length; i++) {
-        sortedData.push(data[i]);
+      for (var n = 0; n < data.length; n++) {
+        sortedData.push(data[n]);
       }
       
       // Sort by date
-      for (var i = 0; i < sortedData.length - 1; i++) {
-        for (var j = 0; j < sortedData.length - i - 1; j++) {
-          var date1 = new Date(sortedData[j].date);
-          var date2 = new Date(sortedData[j + 1].date);
+      for (var p = 0; p < sortedData.length - 1; p++) {
+        for (var q = 0; q < sortedData.length - p - 1; q++) {
+          var date1 = new Date(sortedData[q].date);
+          var date2 = new Date(sortedData[q + 1].date);
           if (date1 > date2) {
-            var temp = sortedData[j];
-            sortedData[j] = sortedData[j + 1];
-            sortedData[j + 1] = temp;
+            var temp = sortedData[q];
+            sortedData[q] = sortedData[q + 1];
+            sortedData[q + 1] = temp;
           }
         }
       }
       
-      var labels = [];
-      var amounts = [];
-      for (var i = 0; i < sortedData.length; i++) {
-        labels.push(sortedData[i].date);
-        var amount = parseFloat(sortedData[i].amount);
-        if (!isNaN(amount)) {
-          amounts.push(amount);
+      var dailyLabels = [];
+      var dailyAmounts = [];
+      for (var r = 0; r < sortedData.length; r++) {
+        dailyLabels.push(sortedData[r].date);
+        var dailyAmount = parseFloat(sortedData[r].amount);
+        if (!isNaN(dailyAmount)) {
+          dailyAmounts.push(dailyAmount);
         } else {
-          amounts.push(0);
+          dailyAmounts.push(0);
         }
       }
 
       return {
-        labels: labels,
+        labels: dailyLabels,
         datasets: [
           {
             label: 'Daily Spending',
-            data: amounts,
+            data: dailyAmounts,
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             tension: 0.1,

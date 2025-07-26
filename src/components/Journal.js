@@ -124,14 +124,14 @@ function Journal() {
     for (var i = 0; i < spendingCategories.length; i++) {
       allCategories.push(spendingCategories[i].category);
     }
-    for (var i = 0; i < customCategories.length; i++) {
-      allCategories.push(customCategories[i]);
+    for (var j = 0; j < customCategories.length; j++) {
+      allCategories.push(customCategories[j]);
     }
 
     // Check if category already exists
     var categoryExists = false;
-    for (var i = 0; i < allCategories.length; i++) {
-      if (allCategories[i] === categoryName) {
+    for (var k = 0; k < allCategories.length; k++) {
+      if (allCategories[k] === categoryName) {
         categoryExists = true;
         break;
       }
@@ -144,8 +144,8 @@ function Journal() {
 
     // Add new category
     var updatedCategories = [];
-    for (var i = 0; i < customCategories.length; i++) {
-      updatedCategories.push(customCategories[i]);
+    for (var m = 0; m < customCategories.length; m++) {
+      updatedCategories.push(customCategories[m]);
     }
     updatedCategories.push(categoryName);
     
@@ -186,8 +186,8 @@ function Journal() {
   for (var i = 0; i < spendingCategories.length; i++) {
     allCategories.push(spendingCategories[i].category);
   }
-  for (var i = 0; i < customCategories.length; i++) {
-    allCategories.push(customCategories[i]);
+  for (var n = 0; n < customCategories.length; n++) {
+    allCategories.push(customCategories[n]);
   }
 
   return (
@@ -364,22 +364,22 @@ function Journal() {
                           sortedRecords.push(records[i]);
                         }
                         
-                        for (var i = 0; i < sortedRecords.length - 1; i++) {
-                          for (var j = 0; j < sortedRecords.length - i - 1; j++) {
-                            var date1 = new Date(sortedRecords[j].date);
-                            var date2 = new Date(sortedRecords[j + 1].date);
+                        for (var p = 0; p < sortedRecords.length - 1; p++) {
+                          for (var q = 0; q < sortedRecords.length - p - 1; q++) {
+                            var date1 = new Date(sortedRecords[q].date);
+                            var date2 = new Date(sortedRecords[q + 1].date);
                             if (date1 < date2) {
-                              var temp = sortedRecords[j];
-                              sortedRecords[j] = sortedRecords[j + 1];
-                              sortedRecords[j + 1] = temp;
+                              var temp = sortedRecords[q];
+                              sortedRecords[q] = sortedRecords[q + 1];
+                              sortedRecords[q + 1] = temp;
                             }
                           }
                         }
                         
                         // Show only first 10 records
                         var displayRecords = [];
-                        for (var i = 0; i < Math.min(10, sortedRecords.length); i++) {
-                          displayRecords.push(sortedRecords[i]);
+                        for (var r = 0; r < Math.min(10, sortedRecords.length); r++) {
+                          displayRecords.push(sortedRecords[r]);
                         }
                         
                         return displayRecords;
