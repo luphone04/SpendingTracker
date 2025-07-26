@@ -1,117 +1,27 @@
-# 💰 Spending Tracker
+## 👥 Team Members
+
+- Lu Phone Maw
+- Wai Yan Paing
+
+## Screenshots
+<img width="1056" height="721" alt="Screenshot 2025-07-26 at 04 23 43" src="https://github.com/user-attachments/assets/ea331221-ddad-4356-8528-bb9add9462a4" />
+<img width="1396" height="791" alt="Screenshot 2025-07-26 at 04 22 33" src="https://github.com/user-attachments/assets/6d9ca62b-434f-47d4-bbf7-b2991e1f93ff" />
+<img width="1007" height="769" alt="Screenshot 2025-07-26 at 04 22 57" src="https://github.com/user-attachments/assets/2892abe7-6418-4f1c-9c4a-c812d3fcb297" />
+<img width="1025" height="768" alt="Screenshot 2025-07-26 at 04 23 02" src="https://github.com/user-attachments/assets/7fa30cd9-7195-4b94-9e6c-a2ac9bbd16c3" />
+<img width="1020" height="739" alt="Screenshot 2025-07-26 at 04 23 10" src="https://github.com/user-attachments/assets/19a595c8-9a49-4046-8820-91ba48dfc007" />
+
+
+# Spending Tracker
 
 A React.js web application for tracking personal spending habits with detailed analytics and visualizations.
+
+## 🚀 Live Demo
+
+Visit the live application: [https://your-username.github.io/spending-tracker](https://your-username.github.io/spending-tracker)
 
 ## 📖 Overview
 
 The Spending Tracker is a single-user application that helps you monitor and analyze your spending patterns. Built with React.js and utilizing localStorage for data persistence, this app provides comprehensive insights into your financial habits through interactive charts and detailed breakdowns.
-
-## ✨ Features
-
-### 📊 Analytics Dashboard
-- **Multi-timeframe Analysis**: View spending data by Daily, Weekly, or Monthly periods
-- **Total Spending Summary**: See all-time spending and period-specific totals
-- **Interactive Charts**: 
-  - Line chart showing cumulative spending trends over time
-  - Pie chart displaying spending distribution by category
-- **Category Breakdown**: Detailed table with amounts and percentages per category
-- **Smart Filtering**: Easily switch between different time periods and months
-
-### 📝 Spending Journal
-- **Easy Record Entry**: Add spending records with date, category, amount, and optional description
-- **Predefined Categories**: Choose from common spending categories (Groceries, Transportation, Entertainment, etc.)
-- **Custom Categories**: Create and save your own spending categories
-- **Recent Records View**: See your latest spending entries at a glance
-- **Quick Stats**: View total records count and total amount spent
-- **Record Management**: Delete individual records with confirmation
-
-### 🔧 Technical Features
-- **Responsive Design**: Built with Bootstrap for mobile-friendly experience
-- **Local Storage**: All data persists locally in your browser
-- **Real-time Updates**: Charts and statistics update immediately when new records are added
-- **No Backend Required**: Fully client-side application
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (version 14 or higher)
-- npm or yarn package manager
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/your-username/spending-tracker.git
-cd spending-tracker
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm start
-```
-
-4. Open your browser and navigate to `http://localhost:3000`
-
-### Building for Production
-
-```bash
-npm run build
-```
-
-### Deploying to GitHub Pages
-
-```bash
-npm run deploy
-```
-
-## 📱 Usage
-
-### Adding a Spending Record
-1. Navigate to the **Journal** page
-2. Fill in the required fields:
-   - **Date**: When the expense occurred
-   - **Category**: Select from existing categories or create a new one
-   - **Amount**: The amount spent (in dollars)
-   - **Description**: Optional details about the expense
-3. Click **Add Record** to save
-
-### Viewing Analytics
-1. Go to the **Dashboard** page
-2. Select your desired time view (Daily, Weekly, Monthly)
-3. For monthly view, choose specific month and year
-4. Explore the charts and statistics:
-   - View spending trends over time with the line chart
-   - See category distribution with the pie chart
-   - Review detailed breakdowns in the summary table
-
-### Managing Categories
-- Use predefined categories from the dropdown
-- Add custom categories by clicking the "+" button
-- New categories are automatically saved and available for future use
-
-## 🏗️ Project Structure
-
-```
-spending-tracker/
-├── public/
-│   ├── index.html
-│   └── favicon.ico
-├── src/
-│   ├── components/
-│   │   ├── Dashboard.js       # Analytics dashboard component
-│   │   └── Journal.js         # Spending journal component
-│   ├── spending_data.json     # Predefined spending categories
-│   ├── App.js                 # Main application component
-│   ├── App.css               # Application styles
-│   └── index.js              # Application entry point
-├── package.json
-└── README.md
-```
 
 ## 🛠️ Technologies Used
 
@@ -121,26 +31,6 @@ spending-tracker/
 - **Bootstrap** - UI styling and responsive design
 - **Local Storage API** - Data persistence
 - **GitHub Pages** - Deployment platform
-
-## 📊 Sample Data
-
-The application comes with predefined spending categories:
-- Groceries
-- Utilities
-- Transportation
-- Entertainment
-- Dining Out
-- Health
-- Shopping
-- Travel
-- Education
-- Miscellaneous
-
-## 👥 Team Members
-
-- **[Team Member 1]** - Frontend Development
-- **[Team Member 2]** - UI/UX Design & Charts Integration
-- **[Team Member 3]** - Data Management & Testing
 
 ## 🎯 Project Requirements Met
 
@@ -154,24 +44,3 @@ The application comes with predefined spending categories:
 ✅ **Custom Categories**: Ability to add new spending categories  
 ✅ **Bootstrap Styling**: Responsive and modern UI  
 ✅ **GitHub Pages Deployment**: Ready for web deployment  
-
-## 🔮 Future Enhancements
-
-- Export data to CSV/PDF formats
-- Budget setting and tracking
-- Spending goal notifications
-- Data backup and restore functionality
-- Multi-currency support
-- Advanced filtering and search capabilities
-
-## 📝 License
-
-This project is developed as part of a web development course assignment.
-
-## 🚀 Live Demo
-
-Visit the live application: [https://your-username.github.io/spending-tracker](https://your-username.github.io/spending-tracker)
-
----
-
-*Last updated: July 2025*
