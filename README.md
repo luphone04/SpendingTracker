@@ -1,29 +1,30 @@
 ## 👥 Team Members
 
-- Lu Phone Maw
-- Wai Yan Paing
+- **Lu Phone Maw**
+- **Wai Yan Paing**
 
-## Screenshots
-<img width="1056" height="721" alt="Screenshot 2025-07-26 at 04 23 43" src="https://github.com/user-attachments/assets/ea331221-ddad-4356-8528-bb9add9462a4" />
-<img width="1396" height="791" alt="Screenshot 2025-07-26 at 04 22 33" src="https://github.com/user-attachments/assets/6d9ca62b-434f-47d4-bbf7-b2991e1f93ff" />
-<img width="1007" height="769" alt="Screenshot 2025-07-26 at 04 22 57" src="https://github.com/user-attachments/assets/2892abe7-6418-4f1c-9c4a-c812d3fcb297" />
-<img width="1025" height="768" alt="Screenshot 2025-07-26 at 04 23 02" src="https://github.com/user-attachments/assets/7fa30cd9-7195-4b94-9e6c-a2ac9bbd16c3" />
-<img width="1020" height="739" alt="Screenshot 2025-07-26 at 04 23 10" src="https://github.com/user-attachments/assets/19a595c8-9a49-4046-8820-91ba48dfc007" />
+## Application Screenshots
+
+![Journal](<img width="1171" height="809" alt="Screenshot 2025-07-27 at 04 10 49" src="https://github.com/user-attachments/assets/376da12c-dba0-4ea3-a7de-8e5208e2a3c8" />)
+![Dashboard](<img width="1179" height="796" alt="Screenshot 2025-07-27 at 04 10 19" src="https://github.com/user-attachments/assets/072feb55-fed6-4dfd-b287-0e34f579319f" />)
+![Charts](<img width="1218" height="821" alt="Screenshot 2025-07-27 at 04 10 36" src="https://github.com/user-attachments/assets/89e1558f-47b8-402e-b67a-e2db0ea5c1df" />)
+![Trends](<img width="1169" height="662" alt="Screenshot 2025-07-27 at 04 10 24" src="https://github.com/user-attachments/assets/80c7f408-c10e-49da-a603-907a8a302afe" />)
+
 
 
 # Spending Tracker
 
 A React.js web application for tracking personal spending habits with detailed analytics and visualizations.
 
-## 🚀 Live Demo
+## Live Demo
 
 Visit the live application: [https://luphone04.github.io/SpendingTracker/](https://luphone04.github.io/SpendingTracker/)
 
-## 📖 Overview
+## Overview
 
 The Spending Tracker is a single-user application that helps you monitor and analyze your spending patterns. Built with React.js and utilizing localStorage for data persistence, this app provides comprehensive insights into your financial habits through interactive charts and detailed breakdowns.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **React.js 19.1.0** - Frontend framework with modern hooks
 - **Vite 5.4.19** - Fast build tool and development server
@@ -34,7 +35,7 @@ The Spending Tracker is a single-user application that helps you monitor and ana
 - **pnpm** - Fast, efficient package manager
 - **GitHub Pages** - Deployment platform
 
-## 🎯 Project Requirements Met
+## Project Requirements Met
 
 ✅ **React.js Implementation**: Built entirely with React.js 19.1.0  
 ✅ **Local Storage**: All data persists using localStorage  
@@ -48,9 +49,9 @@ The Spending Tracker is a single-user application that helps you monitor and ana
 ✅ **Bootstrap Styling**: Responsive and modern UI  
 ✅ **GitHub Pages Deployment**: Ready for web deployment
 
-## ✨ Key Features
+## Key Features
 
-### 📊 Analytics Dashboard
+### Analytics Dashboard
 - **Time Period Filtering**: Switch between Daily, Weekly, and Monthly views
 - **Total Spending Summary**: All-time and period-specific totals
 - **Interactive Charts**: 
@@ -59,7 +60,7 @@ The Spending Tracker is a single-user application that helps you monitor and ana
   - Bar chart for precise category spending amounts
 - **Category Breakdown Table**: Detailed spending by category with percentages
 
-### 📝 Spending Journal
+### Spending Journal
 - **Easy Record Entry**: Date, category, amount, and optional description
 - **Pre-defined Categories**: 10 common spending categories included
 - **Custom Categories**: Add your own spending categories
@@ -67,17 +68,17 @@ The Spending Tracker is a single-user application that helps you monitor and ana
 - **Record Management**: Delete unwanted entries
 - **Quick Stats**: Real-time total records and spending amounts
 
-### 🎨 User Experience
+### User Experience
 - **Responsive Design**: Works seamlessly on desktop and mobile
 - **Modern UI**: Clean Bootstrap 5 styling with custom gradients
 - **Fast Performance**: Lightning-fast Vite development and build
 - **Smooth Animations**: Hover effects and transitions throughout
 
-## 🚀 Development
+## Development
 
 ### Prerequisites
 - Node.js 16+ 
-- pnpm (recommended) or npm
+- pnpm (recommended) 
 
 ### Installation & Setup
 ```bash
