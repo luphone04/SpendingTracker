@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,6 +12,7 @@ import {
   ArcElement,
 } from 'chart.js';
 
+// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -34,59 +35,106 @@ function Dashboard() {
     setSpendingData(data);
   }, []);
 
-  const filterDataByTime = (data) => {
-    return data.filter(record => {
-      const recordDate = new Date(record.date);
+  // Filter data based on time period
+  function filterDataByTime(data) {
+    var filteredData = [];
+    
+    for (var i = 0; i < data.length; i++) {
+      var record = data[i];
+      var recordDate = new Date(record.date);
       
-      switch(timeView) {
-        case 'daily':
-          return recordDate.getMonth() === selectedMonth - 1 && 
-                 recordDate.getFullYear() === selectedYear;
-        case 'weekly':
-          return recordDate.getMonth() === selectedMonth - 1 && 
-                 recordDate.getFullYear() === selectedYear;
-        case 'monthly':
-          return recordDate.getFullYear() === selectedYear;
-        default:
-          return true;
+      if (timeView === 'daily') {
+        if (recordDate.getMonth() === selectedMonth - 1 && recordDate.getFullYear() === selectedYear) {
+          filteredData.push(record);
+        }
+      } else if (timeView === 'weekly') {
+        if (recordDate.getMonth() === selectedMonth - 1 && recordDate.getFullYear() === selectedYear) {
+          filteredData.push(record);
+        }
+      } else if (timeView === 'monthly') {
+        if (recordDate.getFullYear() === selectedYear) {
+          filteredData.push(record);
+        }
+      } else {
+        filteredData.push(record);
       }
-    });
-  };
+    }
+    
+    return filteredData;
+  }
 
 
 
-  const calculateTotalSpending = (data) => {
-    return data.reduce((total, record) => total + parseFloat(record.amount || 0), 0);
-  };
+  // Calculate total spending
+  function calculateTotalSpending(data) {
+    var total = 0;
+    for (var i = 0; i < data.length; i++) {
+      var amount = parseFloat(data[i].amount);
+      if (!isNaN(amount)) {
+        total = total + amount;
+      }
+    }
+    return total;
+  }
 
-  const groupByCategory = (data) => {
-    const grouped = {};
-    data.forEach(record => {
-      const category = record.category;
-      grouped[category] = (grouped[category] || 0) + parseFloat(record.amount || 0);
-    });
-    return grouped;
-  };
+  // Group spending by category
+  function groupByCategory(data) {
+    var categoryTotals = {};
+    
+    for (var i = 0; i < data.length; i++) {
+      var record = data[i];
+      var category = record.category;
+      var amount = parseFloat(record.amount);
+      
+      if (!isNaN(amount)) {
+        if (categoryTotals[category]) {
+          categoryTotals[category] = categoryTotals[category] + amount;
+        } else {
+          categoryTotals[category] = amount;
+        }
+      }
+    }
+    
+    return categoryTotals;
+  }
 
-  const prepareLineChartData = (data) => {
+  // Prepare data for line chart
+  function prepareLineChartData(data) {
     if (timeView === 'monthly') {
       // Group by months for yearly view
-      const monthlyData = {};
-      data.forEach(record => {
-        const date = new Date(record.date);
-        const monthKey = date.getMonth();
-        monthlyData[monthKey] = (monthlyData[monthKey] || 0) + parseFloat(record.amount || 0);
-      });
+      var monthlyData = {};
+      
+      for (var i = 0; i < data.length; i++) {
+        var record = data[i];
+        var date = new Date(record.date);
+        var month = date.getMonth();
+        var amount = parseFloat(record.amount);
+        
+        if (!isNaN(amount)) {
+          if (monthlyData[month]) {
+            monthlyData[month] = monthlyData[month] + amount;
+          } else {
+            monthlyData[month] = amount;
+          }
+        }
+      }
 
-      const labels = [];
-      const amounts = [];
-      for (let i = 0; i < 12; i++) {
-        labels.push(new Date(0, i).toLocaleString('default', { month: 'long' }));
-        amounts.push(monthlyData[i] || 0);
+      var labels = [];
+      var amounts = [];
+      var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+      
+      for (var i = 0; i < 12; i++) {
+        labels.push(monthNames[i]);
+        if (monthlyData[i]) {
+          amounts.push(monthlyData[i]);
+        } else {
+          amounts.push(0);
+        }
       }
 
       return {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: 'Monthly Spending',
@@ -99,28 +147,45 @@ function Dashboard() {
       };
     } else if (timeView === 'weekly') {
       // Group by weeks within the selected month
-      const weeklyData = {};
-      data.forEach(record => {
-        const date = new Date(record.date);
-        const dayOfMonth = date.getDate();
-        const weekNumber = Math.ceil(dayOfMonth / 7);
-        weeklyData[weekNumber] = (weeklyData[weekNumber] || 0) + parseFloat(record.amount || 0);
-      });
-
-      const labels = [];
-      const amounts = [];
-      const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-      const totalWeeks = Math.ceil(daysInMonth / 7);
+      var weeklyData = {};
       
-      for (let i = 1; i <= totalWeeks; i++) {
-        const startDay = (i - 1) * 7 + 1;
-        const endDay = Math.min(i * 7, daysInMonth);
-        labels.push(`Week ${i} (${startDay}-${endDay})`);
-        amounts.push(weeklyData[i] || 0);
+      for (var i = 0; i < data.length; i++) {
+        var record = data[i];
+        var date = new Date(record.date);
+        var dayOfMonth = date.getDate();
+        var weekNumber = Math.ceil(dayOfMonth / 7);
+        var amount = parseFloat(record.amount);
+        
+        if (!isNaN(amount)) {
+          if (weeklyData[weekNumber]) {
+            weeklyData[weekNumber] = weeklyData[weekNumber] + amount;
+          } else {
+            weeklyData[weekNumber] = amount;
+          }
+        }
+      }
+
+      var labels = [];
+      var amounts = [];
+      var daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+      var totalWeeks = Math.ceil(daysInMonth / 7);
+      
+      for (var i = 1; i <= totalWeeks; i++) {
+        var startDay = (i - 1) * 7 + 1;
+        var endDay = i * 7;
+        if (endDay > daysInMonth) {
+          endDay = daysInMonth;
+        }
+        labels.push('Week ' + i + ' (' + startDay + '-' + endDay + ')');
+        if (weeklyData[i]) {
+          amounts.push(weeklyData[i]);
+        } else {
+          amounts.push(0);
+        }
       }
 
       return {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: 'Weekly Spending',
@@ -133,13 +198,38 @@ function Dashboard() {
       };
     } else {
       // Daily view - show individual transactions
-      const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+      var sortedData = [];
+      for (var i = 0; i < data.length; i++) {
+        sortedData.push(data[i]);
+      }
       
-      const labels = sortedData.map(record => record.date);
-      const amounts = sortedData.map(record => parseFloat(record.amount || 0));
+      // Sort by date
+      for (var i = 0; i < sortedData.length - 1; i++) {
+        for (var j = 0; j < sortedData.length - i - 1; j++) {
+          var date1 = new Date(sortedData[j].date);
+          var date2 = new Date(sortedData[j + 1].date);
+          if (date1 > date2) {
+            var temp = sortedData[j];
+            sortedData[j] = sortedData[j + 1];
+            sortedData[j + 1] = temp;
+          }
+        }
+      }
+      
+      var labels = [];
+      var amounts = [];
+      for (var i = 0; i < sortedData.length; i++) {
+        labels.push(sortedData[i].date);
+        var amount = parseFloat(sortedData[i].amount);
+        if (!isNaN(amount)) {
+          amounts.push(amount);
+        } else {
+          amounts.push(0);
+        }
+      }
 
       return {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: 'Daily Spending',
@@ -151,36 +241,50 @@ function Dashboard() {
         ],
       };
     }
-  };
+  }
 
-  const preparePieChartData = (categoryData) => {
-    const categories = Object.keys(categoryData);
-    const amounts = Object.values(categoryData);
+  // Prepare data for pie chart
+  function preparePieChartData(categoryData) {
+    var categories = [];
+    var amounts = [];
     
-    const colors = [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
-      '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
-      '#4BC0C0', '#FF9F40'
-    ];
+    // Get all categories and amounts
+    for (var category in categoryData) {
+      categories.push(category);
+      amounts.push(categoryData[category]);
+    }
+    
+    var colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF9F40'];
+    var chartColors = [];
+    
+    for (var i = 0; i < categories.length; i++) {
+      if (i < colors.length) {
+        chartColors.push(colors[i]);
+      } else {
+        chartColors.push('#999999');
+      }
+    }
 
     return {
       labels: categories,
       datasets: [
         {
           data: amounts,
-          backgroundColor: colors.slice(0, categories.length),
-          hoverBackgroundColor: colors.slice(0, categories.length),
+          backgroundColor: chartColors,
+          hoverBackgroundColor: chartColors,
         },
       ],
     };
-  };
+  }
 
-  const filteredData = filterDataByTime(spendingData);
-  const allTimeTotal = calculateTotalSpending(spendingData);
-  const periodTotal = calculateTotalSpending(filteredData);
-  const categoryData = groupByCategory(filteredData);
+  // Calculate data for display
+  var filteredData = filterDataByTime(spendingData);
+  var allTimeTotal = calculateTotalSpending(spendingData);
+  var periodTotal = calculateTotalSpending(filteredData);
+  var categoryData = groupByCategory(filteredData);
 
-  const chartOptions = {
+  // Chart configuration
+  var chartOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -188,7 +292,7 @@ function Dashboard() {
       },
       title: {
         display: true,
-        text: `Spending Analysis - ${timeView.charAt(0).toUpperCase() + timeView.slice(1)}`,
+        text: 'Spending Analysis - ' + timeView.charAt(0).toUpperCase() + timeView.slice(1),
       },
     },
   };

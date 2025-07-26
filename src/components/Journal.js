@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import spendingCategories from '../spending_data.json';
 
 function Journal() {
   const [records, setRecords] = useState([]);
+  // Form data state
+  var today = new Date();
+  var todayString = today.getFullYear() + '-' + 
+                    String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(today.getDate()).padStart(2, '0');
+  
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split('T')[0],
+    date: todayString,
     category: '',
     amount: '',
     description: ''
@@ -13,94 +19,176 @@ function Journal() {
   const [newCategory, setNewCategory] = useState('');
   const [showAddCategory, setShowAddCategory] = useState(false);
 
+  // Load data when component starts
   useEffect(() => {
-    const savedRecords = JSON.parse(localStorage.getItem('spendingRecords') || '[]');
-    const savedCategories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+    var savedRecordsString = localStorage.getItem('spendingRecords');
+    var savedCategoriesString = localStorage.getItem('customCategories');
+    
+    var savedRecords = [];
+    var savedCategories = [];
+    
+    if (savedRecordsString) {
+      savedRecords = JSON.parse(savedRecordsString);
+    }
+    
+    if (savedCategoriesString) {
+      savedCategories = JSON.parse(savedCategoriesString);
+    }
+    
     setRecords(savedRecords);
     setCustomCategories(savedCategories);
   }, []);
 
-  const saveToLocalStorage = (records, categories) => {
+  // Save data to browser storage
+  function saveToLocalStorage(records, categories) {
     localStorage.setItem('spendingRecords', JSON.stringify(records));
     localStorage.setItem('customCategories', JSON.stringify(categories));
-  };
+  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  // Handle form input changes
+  function handleInputChange(e) {
+    var inputName = e.target.name;
+    var inputValue = e.target.value;
+    
+    var newFormData = {
+      date: formData.date,
+      category: formData.category,
+      amount: formData.amount,
+      description: formData.description
+    };
+    
+    newFormData[inputName] = inputValue;
+    setFormData(newFormData);
+  }
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  function handleSubmit(e) {
     e.preventDefault();
     
+    // Check if required fields are filled
     if (!formData.date || !formData.category || !formData.amount) {
       alert('Please fill in all required fields (Date, Category, Amount)');
       return;
     }
 
-    const newRecord = {
+    // Create new record
+    var newRecord = {
       id: Date.now(),
       date: formData.date,
       category: formData.category,
       amount: parseFloat(formData.amount),
-      description: formData.description || ''
+      description: formData.description
     };
+    
+    if (!newRecord.description) {
+      newRecord.description = '';
+    }
 
-    const updatedRecords = [...records, newRecord];
+    // Add to records list
+    var updatedRecords = [];
+    for (var i = 0; i < records.length; i++) {
+      updatedRecords.push(records[i]);
+    }
+    updatedRecords.push(newRecord);
+    
     setRecords(updatedRecords);
     saveToLocalStorage(updatedRecords, customCategories);
 
+    // Reset form
+    var today = new Date();
+    var todayString = today.getFullYear() + '-' + 
+                      String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                      String(today.getDate()).padStart(2, '0');
+    
     setFormData({
-      date: new Date().toISOString().split('T')[0],
+      date: todayString,
       category: '',
       amount: '',
       description: ''
     });
 
     alert('Spending record added successfully!');
-  };
+  }
 
-  const handleAddCategory = () => {
-    if (!newCategory.trim()) {
+  // Handle adding new category
+  function handleAddCategory() {
+    // Check if category name is provided
+    var categoryName = newCategory.trim();
+    if (!categoryName) {
       alert('Please enter a category name');
       return;
     }
 
-    const allCategories = [
-      ...spendingCategories.map(cat => cat.category),
-      ...customCategories
-    ];
+    // Create list of all existing categories
+    var allCategories = [];
+    for (var i = 0; i < spendingCategories.length; i++) {
+      allCategories.push(spendingCategories[i].category);
+    }
+    for (var i = 0; i < customCategories.length; i++) {
+      allCategories.push(customCategories[i]);
+    }
 
-    if (allCategories.includes(newCategory)) {
+    // Check if category already exists
+    var categoryExists = false;
+    for (var i = 0; i < allCategories.length; i++) {
+      if (allCategories[i] === categoryName) {
+        categoryExists = true;
+        break;
+      }
+    }
+    
+    if (categoryExists) {
       alert('Category already exists');
       return;
     }
 
-    const updatedCategories = [...customCategories, newCategory];
+    // Add new category
+    var updatedCategories = [];
+    for (var i = 0; i < customCategories.length; i++) {
+      updatedCategories.push(customCategories[i]);
+    }
+    updatedCategories.push(categoryName);
+    
     setCustomCategories(updatedCategories);
     saveToLocalStorage(records, updatedCategories);
     
-    setFormData(prev => ({ ...prev, category: newCategory }));
+    // Select the new category in form
+    var newFormData = {
+      date: formData.date,
+      category: categoryName,
+      amount: formData.amount,
+      description: formData.description
+    };
+    setFormData(newFormData);
+    
     setNewCategory('');
     setShowAddCategory(false);
     alert('Category added successfully!');
-  };
+  }
 
-  const handleDeleteRecord = (id) => {
-    if (window.confirm('Are you sure you want to delete this record?')) {
-      const updatedRecords = records.filter(record => record.id !== id);
+  // Handle deleting a record
+  function handleDeleteRecord(id) {
+    var confirmDelete = window.confirm('Are you sure you want to delete this record?');
+    if (confirmDelete) {
+      var updatedRecords = [];
+      for (var i = 0; i < records.length; i++) {
+        if (records[i].id !== id) {
+          updatedRecords.push(records[i]);
+        }
+      }
       setRecords(updatedRecords);
       saveToLocalStorage(updatedRecords, customCategories);
     }
-  };
+  }
 
-  const allCategories = [
-    ...spendingCategories.map(cat => cat.category),
-    ...customCategories
-  ];
+  // Create combined list of all categories
+  var allCategories = [];
+  for (var i = 0; i < spendingCategories.length; i++) {
+    allCategories.push(spendingCategories[i].category);
+  }
+  for (var i = 0; i < customCategories.length; i++) {
+    allCategories.push(customCategories[i]);
+  }
 
   return (
     <div className="journal">
@@ -269,10 +357,33 @@ function Journal() {
                       </tr>
                     </thead>
                     <tbody>
-                      {records
-                        .sort((a, b) => new Date(b.date) - new Date(a.date))
-                        .slice(0, 10)
-                        .map((record) => (
+                      {(() => {
+                        // Sort records by date (newest first)
+                        var sortedRecords = [];
+                        for (var i = 0; i < records.length; i++) {
+                          sortedRecords.push(records[i]);
+                        }
+                        
+                        for (var i = 0; i < sortedRecords.length - 1; i++) {
+                          for (var j = 0; j < sortedRecords.length - i - 1; j++) {
+                            var date1 = new Date(sortedRecords[j].date);
+                            var date2 = new Date(sortedRecords[j + 1].date);
+                            if (date1 < date2) {
+                              var temp = sortedRecords[j];
+                              sortedRecords[j] = sortedRecords[j + 1];
+                              sortedRecords[j + 1] = temp;
+                            }
+                          }
+                        }
+                        
+                        // Show only first 10 records
+                        var displayRecords = [];
+                        for (var i = 0; i < Math.min(10, sortedRecords.length); i++) {
+                          displayRecords.push(sortedRecords[i]);
+                        }
+                        
+                        return displayRecords;
+                      })().map((record) => (
                           <tr key={record.id}>
                             <td>{new Date(record.date).toLocaleDateString()}</td>
                             <td>
@@ -313,7 +424,13 @@ function Journal() {
                   <div className="col-6">
                     <h6 className="text-muted">Total Spent</h6>
                     <h4 className="text-success">
-                      ${records.reduce((sum, r) => sum + r.amount, 0).toFixed(2)}
+                      ${(() => {
+                        var total = 0;
+                        for (var i = 0; i < records.length; i++) {
+                          total = total + records[i].amount;
+                        }
+                        return total.toFixed(2);
+                      })()}
                     </h4>
                   </div>
                 </div>
