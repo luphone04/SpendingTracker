@@ -35,14 +35,20 @@ jobs:
       - name: Build
         run: pnpm build
         
-      - name: List build output
-        run: ls -la dist/
+      - name: Verify build output
+        run: |
+          echo "Checking if dist folder exists..."
+          ls -la
+          echo "Contents of dist folder:"
+          ls -la dist/
+          echo "Total files in dist:"
+          find dist -type f | wc -l
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
           
