@@ -5,10 +5,18 @@
 
 ## Application Screenshots
 
-![Journal](<img width="1171" height="809" alt="Screenshot 2025-07-27 at 04 10 49" src="https://github.com/user-attachments/assets/376da12c-dba0-4ea3-a7de-8e5208e2a3c8" />)
-![Dashboard](<img width="1179" height="796" alt="Screenshot 2025-07-27 at 04 10 19" src="https://github.com/user-attachments/assets/072feb55-fed6-4dfd-b287-0e34f579319f" />)
-![Charts](<img width="1218" height="821" alt="Screenshot 2025-07-27 at 04 10 36" src="https://github.com/user-attachments/assets/89e1558f-47b8-402e-b67a-e2db0ea5c1df" />)
-![Trends](<img width="1169" height="662" alt="Screenshot 2025-07-27 at 04 10 24" src="https://github.com/user-attachments/assets/80c7f408-c10e-49da-a603-907a8a302afe" />)
+<img width="1171" height="809" alt="Journal - Spending entry and records management" 
+  src="https://github.com/user-attachments/assets/376da12c-dba0-4ea3-a7de-8e5208e2a3c8" />
+
+<img width="1179" height="796" alt="Dashboard - Analytics overview with totals" 
+  src="https://github.com/user-attachments/assets/072feb55-fed6-4dfd-b287-0e34f579319f" />
+
+<img width="1218" height="821" alt="Charts - Category distribution visualization" 
+  src="https://github.com/user-attachments/assets/89e1558f-47b8-402e-b67a-e2db0ea5c1df" />
+
+<img width="1169" height="662" alt="Trends - Spending analysis over time" 
+  src="https://github.com/user-attachments/assets/80c7f408-c10e-49da-a603-907a8a302afe" />
+
 
 
 
