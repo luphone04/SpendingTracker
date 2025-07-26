@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Line, Pie } from 'react-chartjs-2';
+import { Line, Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  BarElement,
 } from 'chart.js';
 
 // Register chart components
@@ -21,7 +22,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
+  BarElement
 );
 
 function Dashboard() {
@@ -277,6 +279,42 @@ function Dashboard() {
     };
   }
 
+  // Prepare data for bar chart
+  function prepareBarChartData(categoryData) {
+    var categories = [];
+    var amounts = [];
+    
+    // Get all categories and amounts
+    for (var category in categoryData) {
+      categories.push(category);
+      amounts.push(categoryData[category]);
+    }
+    
+    var colors = ['#667eea', '#764ba2', '#36A2EB', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#FFCE56', '#C9CBCF', '#28a745'];
+    var chartColors = [];
+    
+    for (var i = 0; i < categories.length; i++) {
+      if (i < colors.length) {
+        chartColors.push(colors[i]);
+      } else {
+        chartColors.push('#999999');
+      }
+    }
+
+    return {
+      labels: categories,
+      datasets: [
+        {
+          label: 'Spending Amount ($)',
+          data: amounts,
+          backgroundColor: chartColors,
+          borderColor: chartColors,
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
+
   // Calculate data for display
   var filteredData = filterDataByTime(spendingData);
   var allTimeTotal = calculateTotalSpending(spendingData);
@@ -294,6 +332,31 @@ function Dashboard() {
         display: true,
         text: 'Spending Analysis - ' + timeView.charAt(0).toUpperCase() + timeView.slice(1),
       },
+    },
+  };
+
+  // Bar chart specific configuration
+  var barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Category Spending - ' + timeView.charAt(0).toUpperCase() + timeView.slice(1),
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            return '$' + value.toFixed(2);
+          }
+        }
+      }
     },
   };
 
@@ -412,14 +475,26 @@ function Dashboard() {
           </div>
 
           <div className="row mb-4">
-            <div className="col-md-12">
+            <div className="col-md-6">
               <div className="card">
                 <div className="card-header">
-                  <h5>Spending by Category</h5>
+                  <h5>Spending by Category - Pie Chart</h5>
                 </div>
                 <div className="card-body">
                   <div style={{ height: '400px', display: 'flex', justifyContent: 'center' }}>
                     <Pie data={preparePieChartData(categoryData)} options={chartOptions} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-header">
+                  <h5>Spending by Category - Bar Chart</h5>
+                </div>
+                <div className="card-body">
+                  <div style={{ height: '400px' }}>
+                    <Bar data={prepareBarChartData(categoryData)} options={barChartOptions} />
                   </div>
                 </div>
               </div>

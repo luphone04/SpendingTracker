@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import Journal from './components/Journal';
+import Dashboard from './components/Dashboard.jsx';
+import Journal from './components/Journal.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
