@@ -17,7 +17,7 @@ A React.js web application for tracking personal spending habits with detailed a
 
 ## 🚀 Live Demo
 
-Visit the live application: [https://your-username.github.io/spending-tracker](https://luphone04.github.io/SpendingTracker/)
+Visit the live application: [https://luphone04.github.io/SpendingTracker/](https://luphone04.github.io/SpendingTracker/)
 ## 📖 Overview
 
 The Spending Tracker is a single-user application that helps you monitor and analyze your spending patterns. Built with React.js and utilizing localStorage for data persistence, this app provides comprehensive insights into your financial habits through interactive charts and detailed breakdowns.
